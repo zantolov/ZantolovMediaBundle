@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,wBAAW;EACT,iBAAiB,EAAE,SAAS;EAC5B,mBAAmB,EAAE,SAAS;EAE9B,0BAAC;IACC,OAAO,EAAE,KAAK",
+"sources": ["sliders.sass"],
+"names": [],
+"file": "sliders.css"
+}

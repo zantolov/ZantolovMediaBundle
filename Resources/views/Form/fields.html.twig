@@ -1,0 +1,45 @@
+{% block image_chooser_widget %}
+    <div id="imageChooserSelectedImages"></div>
+
+    <div>
+        <a href="" data-toggle="modal" data-target="#imageGalleryModal" class="btn btn-sm btn-primary">
+            <i class="fa fa-image"></i> Edit images </a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="imageGalleryModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="imageGalleryModalLabel">Select images</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="imageGalleryIframe" src=""
+                            style="display:none;border:none;width:100%;height:100%;min-height: 400px"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="saveSelection" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var entityImages = {};
+        {% for choice in choices %}
+        entityImages[{{ choice.data.id }}] = "{{ zantolov_uploader_asset(choice.data, 'imageFile', null, false) | imagine_filter('thumb') }}";
+        {% endfor %}
+
+        var imageClickEvent; // expose click handler to iframe child
+
+        var functions = window.functions || [];
+        functions.push(function () {
+            imageChooser(entityImages, "{{ url(image_browse_route_name) }}");
+        });
+
+    </script>
+    <div class="hidden">{{ block('choice_widget') }}</div>
+{% endblock %}

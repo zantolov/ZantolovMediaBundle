@@ -1,0 +1,15 @@
+{% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
+
+    {% block body -%}
+        <h1>Slider creation</h1>
+
+        {{ form(form) }}
+
+        <ul class="list-inline">
+            <li>
+                <a class="btn btn-primary" href="{{ path('zantolov.media.slider.index') }}">
+                    <i class="fa fa-arrow-left"></i> Back to the list
+                </a>
+            </li>
+        </ul>
+    {% endblock %}

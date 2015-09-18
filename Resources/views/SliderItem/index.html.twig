@@ -1,0 +1,89 @@
+{% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
+
+    {% block body -%}
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Slider items</h2>
+            </div>
+            <div class="col-md-8 text-right">
+                <form>
+                    <ul class="list-inline list-unstyled">
+                        {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {
+                        noUlElement: true,
+                        entityPrefix: "zantolov.media.slider-item."} only %}
+
+                        <li>
+                            <select class="form-control" name="filters[slider]">
+                                {% for slider in sliders %}
+                                    <option value="{{ slider.id }}">{{ slider.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-filter"></i> Filter
+                            </button>
+                            <a href="{{ path('zantolov.media.slider-item.index') }}" class="btn btn-default">
+                                Reset filters</a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+
+        {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "zantolov.media.slider-item."} %}
+
+        <table class="table dataTable">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Position</th>
+                <th>Name</th>
+                <th class="col-sm-3">Body</th>
+                <th>Slider</th>
+                <th>Updated at</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>
+                        <a href="{{ path('zantolov.media.slider-item.show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                    </td>
+                    <td>
+                        {% include "ZantolovAppBundle:Component/Admin:position-btn.html.twig" with {
+                        upUrl:path('zantolov.media.slider-item.reorder', {id: entity.id, direction:"up"}) ,
+                        downUrl: path('zantolov.media.slider-item.reorder', {id: entity.id, direction:"down"}),
+                        position: entity.position
+                        } only %}
+                    </td>
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.body }}</td>
+                    <td>{{ entity.slider }}</td>
+                    <td>{% if entity.updatedAt %}{{ entity.updatedAt|date(defaultDateTimeFormat) }}{% endif %}</td>
+                    <td>{{ entity.active|fontAwesome() }}</td>
+                    <td>
+                        <ul class="list-inline">
+                            <li>
+                                <a class="btn btn-primary"
+                                   href="{{ path('zantolov.media.slider-item.show', { 'id': entity.id }) }}">
+                                    show
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary"
+                                   href="{{ path('zantolov.media.slider-item.edit', { 'id': entity.id }) }}">
+                                    edit
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "zantolov.media.slider-item."} %}        {% endblock %}

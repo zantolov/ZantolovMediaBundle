@@ -1,0 +1,30 @@
+{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.carousel.css')) }}
+{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.transitions.css')) }}
+{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.theme.css')) }}
+
+{{ assetsService.addJs(asset('bundles/zantolovmedia/owlCarousel/owl.carousel.min.js')) }}
+{{ assetsService.addJs(asset('bundles/zantolovmedia/js/mediaSlider.js')) }}
+
+<div id="slider-{{ slider.id }}" class="mediaSlider owl-carousel">
+    {% for sliderItem in slider.getItems() %}
+        {% if sliderItem.active == true %}
+            {% set sliderBg = (sliderItem.image is not null) ? zantolov_uploader_asset(sliderItem.image, 'imageFile', null, false) | imagine_filter('500x330')  : '' %}
+            <div class="sliderItem"
+                 style="background-image:url('{{ sliderBg }}');">
+
+                {% if sliderItem.link %}
+                <a href="{{ sliderItem.link }}">
+                    <div>
+                        {% endif %}
+
+                        {{ sliderItem.body|raw }}
+
+                        {% if sliderItem.link %}
+                    </div>
+                </a>
+                {% endif %}
+
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

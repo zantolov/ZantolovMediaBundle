@@ -1,0 +1,26 @@
+{% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
+
+{% block body %}
+    <ul id="imageBrowseList" class="list-inline">
+        {% for image in images %}
+            <li class="{% if image.id in selected %}selected{% endif %}">
+                <a href="javascript:void(0)" onClick="parent.imageClickEvent(this.firstElementChild)">
+                    <img src="{{ zantolov_uploader_asset(image, 'imageFile', null, false) | imagine_filter("thumb") }}"
+                         data-image-id="{{ image.id }}"
+                         data-image-src="{{ zantolov_uploader_asset(image, 'imageFile', null, false) | imagine_filter("thumb") }}"
+                         class="img-responsive"/>
+
+                    <div class="name">
+                        {{ image.imageName }}
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(images) }}
+    </div>
+
+{% endblock %}

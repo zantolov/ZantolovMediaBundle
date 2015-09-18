@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <!--
+    <services>
+        <service id="zantolov_media.example" class="Zantolov\MediaBundle\Example">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+
+    <services>
+
+        <service id="zantolov.media.vichuploader"
+                 class="Zantolov\MediaBundle\Service\ZantolovVichUploaderHelper">
+            <argument type="service" id="vich_uploader.templating.helper.uploader_helper"/>
+            <argument type="service" id="router"/>
+            <argument>%uploads_dir%</argument>
+        </service>
+
+        <service id="zantolov.media.vichuploader.twig.extension"
+                 class="Zantolov\MediaBundle\Twig\Extension\ZantolovVichUploaderExtension">
+            <argument type="service" id="zantolov.media.vichuploader"/>
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="zantolov_media.liip_cache_delete_eventlistener"
+                 class="Zantolov\MediaBundle\EventListener\LiipCacheDeleteListener">
+            <argument type="service" id="liip_imagine.cache.manager"/>
+            <argument type="service" id="zantolov.media.vichuploader"/>
+
+            <tag name="doctrine.event_listener" event="postPersist" method="postPersist"/>
+            <tag name="doctrine.event_listener" event="postUpdate" method="postPersist"/>
+            <tag name="doctrine.event_listener" event="postRemove" method="postRemove"/>
+
+        </service>
+
+        <service id="zantolov.media.vichuploader.namer"
+                 class="Zantolov\MediaBundle\Service\ZantolovFileNamer">
+        </service>
+
+        <service id="zantolov.media.menu_builder" class="Zantolov\MediaBundle\Menu\MenuBuilder">
+            <argument type="service" id="knp_menu.factory"/>
+            <tag name="zantolov.app.menu"/>
+        </service>
+
+    </services>
+
+</container>
