@@ -1,20 +1,25 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>Image list</h1>
-
-        {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "media.image."} %}
+        {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
+            {% block entityTitle %}
+                Images
+            {% endblock %}
+            {% block actionPanel %}
+                {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "media.image."} %}
+            {% endblock %}
+        {% endembed %}
 
         <table class="table dataTable">
             <thead>
             <tr>
-                <th>Id</th>
+                <th class="col-sm-1">#</th>
                 <th>Image</th>
                 <th>Image name</th>
                 <th>Created at</th>
                 <th>Updated at</th>
                 <th>Active</th>
-                <th>Actions</th>
+                <th class="col-sm-1">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -33,24 +38,20 @@
                     <td>{% if entity.updatedAt %}{{ entity.updatedAt|date(defaultDateTimeFormat) }}{% endif %}</td>
                     <td>{{ entity.active|fontAwesome() }}</td>
                     <td>
-                        <ul class="list-inline">
-                            <li>
-                                <a class="btn btn-primary"
-                                   href="{{ path('media.image.show', { 'id': entity.id }) }}">
-                                    show
-                                </a>
-                            </li>
-                            <li>
-                                <a class="btn btn-primary"
-                                   href="{{ path('media.image.edit', { 'id': entity.id }) }}">
-                                    edit
-                                </a>
-                            </li>
-                        </ul>
+                        <a class="btn btn-primary btn-sm"
+                           title="Show"
+                           href="{{ path('media.image.show', { 'id': entity.id }) }}">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a class="btn btn-primary btn-sm"
+                           title="Edit"
+                           href="{{ path('media.image.edit', { 'id': entity.id }) }}">
+                            <i class="fa fa-edit"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "media.image."} %}        {% endblock %}
+    {% endblock %}
