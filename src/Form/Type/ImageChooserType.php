@@ -11,9 +11,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ImageChooserType extends AbstractType
 {
 
+    private $path;
+
+    public function __construct($propertyPath)
+    {
+        $this->path = $propertyPath;
+    }
+
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['image_browse_route_name'] = 'media.image.popup.browse';
+        $view->vars['propertyPath'] = $this->path;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

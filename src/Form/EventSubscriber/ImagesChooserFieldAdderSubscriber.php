@@ -9,16 +9,20 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Zantolov\MediaBundle\Entity\Image;
 use Zantolov\MediaBundle\Form\Type\ImageChooserType;
 
 class ImagesChooserFieldAdderSubscriber implements EventSubscriberInterface
 {
 
     private $propertyPath;
+    private $options;
 
-    public function __construct($path)
+
+    public function __construct($path, $options = array())
     {
         $this->setPropertyPath($path);
+        $this->setOptions($options);
     }
 
 
@@ -50,6 +54,14 @@ class ImagesChooserFieldAdderSubscriber implements EventSubscriberInterface
     {
         $formOptions = $this->getFormTypeDefaults();
 
+        if (is_null($images)) {
+            $images = array();
+        }
+
+        if ($images instanceof Image) {
+            $images = array($images->getId());
+        }
+
         if (is_array($images)) {
             $selectedIds = is_array($images) ? array_values($images) : null;
             $formOptions['query_builder'] = function (EntityRepository $repository) use ($selectedIds) {
@@ -61,18 +73,23 @@ class ImagesChooserFieldAdderSubscriber implements EventSubscriberInterface
             $formOptions['choices'] = $images;
         }
 
-        $form->add($this->getPropertyPath(), new ImageChooserType(), $formOptions);
+        $form->add($this->getPropertyPath(), new ImageChooserType($this->getPropertyPath()), $formOptions);
     }
 
     private function getFormTypeDefaults()
     {
-        return array(
+
+        $defaults = array(
             'class'    => 'ZantolovMediaBundle:Image',
             'label'    => 'Images',
             'multiple' => true,
             'required' => false,
             'attr'     => array('class' => 'noSelect2'),
         );
+
+        $options = $this->getOptions();
+        return $options + $defaults;
+
     }
 
     public function preSetData(FormEvent $event)
@@ -86,7 +103,6 @@ class ImagesChooserFieldAdderSubscriber implements EventSubscriberInterface
 
         $accessor = PropertyAccess::createPropertyAccessor();
         $images = $accessor->getValue($data, $this->getPropertyPath());
-
         $this->addFormField($form, $images);
 
     }
@@ -97,10 +113,28 @@ class ImagesChooserFieldAdderSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
 
         $accessor = PropertyAccess::createPropertyAccessor();
-        $images = $accessor->getValue($data, (is_array($data) ? '[images]' : 'images'));
+        $path = $this->getPropertyPath();
+        $images = $accessor->getValue($data, (is_array($data) ? '[' . $path . ']' : $path));
 
         $this->addFormField($form, $images);
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param mixed $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+
 
 }

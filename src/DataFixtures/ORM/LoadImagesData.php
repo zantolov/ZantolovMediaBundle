@@ -18,7 +18,8 @@ class LoadImagesData extends AbstractDbFixture
             $img->setImageName($i . '.jpg');
 
             $url = 'http://lorempixel.com/500/500/';
-            $imgFile = realpath(__DIR__ . '/../../../../../web/uploads/images/default/') . '/' . $i . '.jpg';
+            $imgFile = realpath(__DIR__ . '/../../../../../../web/uploads/images/default/') . '/' . $i . '.jpg';
+
             file_put_contents($imgFile, file_get_contents($url));
 
             $this->setReference('image' . $i, $img);

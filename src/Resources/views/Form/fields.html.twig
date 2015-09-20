@@ -1,4 +1,5 @@
 {% block image_chooser_widget %}
+
     <div id="imageChooserSelectedImages"></div>
 
     <div>
@@ -28,6 +29,12 @@
     </div>
 
     <script>
+        {% if multiple is defined %}
+        var multiple = {{ multiple ? "true" : "false" }};
+        {% else %}
+        var multiple = true;
+        {% endif %}
+
         var entityImages = {};
         {% for choice in choices %}
         entityImages[{{ choice.data.id }}] = "{{ zantolov_uploader_asset(choice.data, 'imageFile', null, false) | imagine_filter('thumb') }}";
@@ -37,7 +44,12 @@
 
         var functions = window.functions || [];
         functions.push(function () {
-            imageChooser(entityImages, "{{ url(image_browse_route_name) }}");
+            imageChooser({
+                images: entityImages,
+                url: "{{ url(image_browse_route_name) }}",
+                path: "{{ propertyPath }}",
+                multiple: multiple
+            });
         });
 
     </script>

@@ -1,4 +1,9 @@
-function imageChooser(entityImages, browseUrl) {
+function imageChooser(options) {
+
+    var entityImages = options.images,
+        browseUrl = options.url,
+        path = options.path,
+        multiple = options.multiple;
 
 
     var imageObj = function (id, src) {
@@ -110,12 +115,20 @@ function imageChooser(entityImages, browseUrl) {
             if (this.isImageSelected(img)) {
                 this.unselectImage(img);
             } else {
+                if (multiple != true) {
+                    // Deselect all images
+                    this.selectedImages = {};
+                }
                 this.selectImage(img);
             }
 
             if (this.isElementSelected(img)) {
                 this.unselectElement(img);
             } else {
+                if (multiple != true) {
+                    // Deselect all elements
+                    this.iframe.contents().find('li.' + this.selectedClass).removeClass(this.selectedClass)
+                }
                 this.selectElement(img);
             }
         }
@@ -160,7 +173,7 @@ function imageChooser(entityImages, browseUrl) {
 
     // flush image array to select on form submit
     $('form').submit(function () {
-        var select = $('select[id$=_images]');
+        var select = $('select[id$=_' + path + ']');
         select.html('');
 
         for (var id in entityImages) {
