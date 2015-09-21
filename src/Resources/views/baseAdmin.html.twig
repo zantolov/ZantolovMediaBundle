@@ -2,12 +2,10 @@
 
 {% block customStylesheets %}
     {{ parent() }}
-
     <link href="{{ asset('bundles/zantolovmedia/css/mediaBundle.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block customJsPlugins -%}
     {{ parent() }}
-
     <script src="{{ asset('bundles/zantolovmedia/js/imageChooser.js') }}"></script>
 {% endblock %}

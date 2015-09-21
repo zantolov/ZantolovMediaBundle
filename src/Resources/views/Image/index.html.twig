@@ -3,7 +3,7 @@
     {% block body -%}
         {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
             {% block entityTitle %}
-                <h1>{% trans %}Image list{% endtrans %}</h1>
+                {% trans %}Image list{% endtrans %}
             {% endblock %}
             {% block actionPanel %}
                 {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "media.image."} %}
