@@ -1,0 +1,67 @@
+Edit images: Uredi slike
+Select images: Odaberi slike
+Close: Zatvori
+Save changes: Spremi promjene
+Image edit: Uredi sliku
+Image list: Popis slika
+Image creation: Nova slika
+Back to the list: Natrag na popis
+
+Image file: Datoteka slike
+Image: Slika
+Image name: Naziv slike
+Created at: Kreirano
+Updated at: Azurirano
+Active: Aktivno
+Actions: Akcije
+Title: Naslov
+Name: Naziv
+Items: Stavke
+File: Datoteka
+
+show: prikazi
+edit: uredi
+Edit: Uredi
+Create: Stvori
+Update: Azuriraj
+Delete: Izbrisi
+
+Image Collection edit: Uredi kolekciju slika
+Image Collection creation: Nova kolekcija slika
+Image Collection list: Popis kolecija slika
+Image Collection: Kolekcija slika
+
+Slider edit: Uredi klizac
+Slider creation: Novi klizac
+Slider list: Popis klizaca
+Slider: Klizac
+
+Slider Item edit: Uredi stavke klizaca
+Slider Item creation: Nova stavka klizaca
+Slider Items: Stavke klizaca
+Slider Item: Stavka klizaca
+
+Filter: Flitriraj
+Reset filters: Resetiraj filtere
+Position: Pozicija
+Body: Sadrzaj
+Link: Poveznica
+
+Image Collection Created: Stvorena je nova kolekcija slika
+Unable to find Image Collection entity.: Trazena kolekcija slika ne postoji
+Image Collection Updated: Kolekcija slika je azurirana
+Image Collection Deleted: Kolekcija slika je izbrisana
+
+Image Created: Slika je stvorena
+Unable to find Image entity: Trazena slika ne postoji
+Image Updated: Slika je azurirana
+Image Deleted: Slika je izbrisana
+
+Slider Created: Klizac je stvoren
+Slider Updated: Klizac je azuriran
+Slider Deleted: Klizac je izbrisan
+Unable to find Slider entity: Trazeni klizac ne postoji
+
+Slider Item Created: Stavka klizaca je stvorena
+Slider Item Updated: Stavka klizaca je azurirana
+Slider item Deleted: Stavka klizaca je izbrisana

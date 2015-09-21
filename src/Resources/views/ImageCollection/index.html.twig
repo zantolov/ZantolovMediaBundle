@@ -1,7 +1,7 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>ImageCollection list</h1>
+        <h1>{% trans %}Image Collection list{% endtrans %}</h1>
 
         {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "media.image-collection."} %}
 
@@ -9,10 +9,10 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
-                <th>Createdat</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
+                <th>{% trans %}Title{% endtrans %}</th>
+                <th>{% trans %}Created at{% endtrans %}</th>
+                <th>{% trans %}Updated at{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
             </thead>
             <tbody>
@@ -29,13 +29,13 @@
                             <li>
                                 <a class="btn btn-primary"
                                    href="{{ path('media.image-collection.show', { 'id': entity.id }) }}">
-                                    show
+                                    {% trans %}show{% endtrans %}
                                 </a>
                             </li>
                             <li>
                                 <a class="btn btn-primary"
                                    href="{{ path('media.image-collection.edit', { 'id': entity.id }) }}">
-                                    edit
+                                    {% trans %}edit{% endtrans %}
                                 </a>
                             </li>
                         </ul>
