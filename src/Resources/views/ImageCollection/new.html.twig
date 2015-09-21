@@ -1,14 +1,14 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>ImageCollection creation</h1>
+        <h1>{% trans %}Image Collection creation{% endtrans %}</h1>
 
         {{ form(form) }}
 
         <ul class="list-inline">
             <li>
                 <a class="btn btn-primary" href="{{ path('media.image-collection') }}">
-                    <i class="fa fa-arrow-left"></i> Back to the list
+                    <i class="fa fa-arrow-left"></i> {% trans %}Back to the list{% endtrans %}
                 </a>
             </li>
         </ul>

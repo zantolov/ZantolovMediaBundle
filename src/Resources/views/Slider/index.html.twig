@@ -2,7 +2,7 @@
 
 
     {% block body -%}
-        <h1>Slider list</h1>
+        <h1>{% trans %}Slider list{% endtrans %}</h1>
 
         {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "zantolov.media.slider."} %}
 
@@ -10,11 +10,11 @@
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Createdat</th>
-                <th>Updatedat</th>
-                <th>Active</th>
-                <th>Actions</th>
+                <th>{% trans %}Name{% endtrans %}</th>
+                <th>{% trans %}Created at{% endtrans %}</th>
+                <th>{% trans %}Updated at{% endtrans %}</th>
+                <th>{% trans %}Active{% endtrans %}</th>
+                <th>{% trans %}Actions{% endtrans %}</th>
             </tr>
             </thead>
             <tbody>
@@ -32,13 +32,13 @@
                             <li>
                                 <a class="btn btn-primary"
                                    href="{{ path('zantolov.media.slider.show', { 'id': entity.id }) }}">
-                                    show
+                                    {% trans %}show{% endtrans %}
                                 </a>
                             </li>
                             <li>
                                 <a class="btn btn-primary"
                                    href="{{ path('zantolov.media.slider.edit', { 'id': entity.id }) }}">
-                                    edit
+                                    {% trans %}edit{% endtrans %}
                                 </a>
                             </li>
                         </ul>
