@@ -210,7 +210,7 @@ class SliderController extends EntityCrudController
 
         }
 
-        return $this->redirect($this->generateUrl('slider'));
+        return $this->redirect($this->generateUrl('zantolov.media.slider.index'));
     }
 
     /**
