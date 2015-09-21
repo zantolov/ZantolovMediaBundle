@@ -54,7 +54,8 @@ class SliderItemController extends EntityCrudController
         if ($form->isValid()) {
             $this->getManager()->persist($entity);
             $this->getManager()->flush();
-            $this->get('session')->getFlashBag()->add('success', 'SliderItem Created');
+            $created = $this->translate('Slider Item Created');
+            $this->get('session')->getFlashBag()->add('success', $created);
 
             return $this->redirect($this->generateUrl('zantolov.media.slider-item.show', array('id' => $entity->getId())));
         }
@@ -178,7 +179,8 @@ class SliderItemController extends EntityCrudController
         if ($editForm->isValid()) {
             $this->getManager()->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'SliderItem Updated');
+            $updated = $this->translate('Slider Item Updated');
+            $this->get('session')->getFlashBag()->add('success', $updated);
 
             return $this->redirect($this->generateUrl('zantolov.media.slider-item.edit', array('id' => $id)));
         }
@@ -206,7 +208,8 @@ class SliderItemController extends EntityCrudController
             $this->getManager()->remove($entity);
             $this->getManager()->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'SliderItem Deleted');
+            $deleted = $this->translate('Slider Item Deleted');
+            $this->get('session')->getFlashBag()->add('success', $deleted);
 
         }
 

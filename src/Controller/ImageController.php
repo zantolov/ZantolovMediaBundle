@@ -20,6 +20,13 @@ use Zantolov\MediaBundle\Form\ImageType;
 class ImageController extends Controller
 {
     /**
+     * @param $string
+     * @return String
+     */
+    protected function translate($string){
+        return $this->get('translator')->trans($string);
+    }
+    /**
      * Lists all Image entities.
      *
      * @Route("/", name="media.image")
@@ -54,7 +61,8 @@ class ImageController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Image Created');
+            $created = $this->translate('Image Created');
+            $this->get('session')->getFlashBag()->add('success', $created);
 
 
             return $this->redirect($this->generateUrl('media.image.show', array('id' => $entity->getId())));
@@ -117,7 +125,8 @@ class ImageController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Image entity.');
+            $notFound = $this->translate('Unable to find Image entity');
+            throw $this->createNotFoundException($notFound);
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -142,7 +151,8 @@ class ImageController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Image entity.');
+            $notFound = $this->translate('Unable to find Image entity');
+            throw $this->createNotFoundException($notFound);
         }
 
         $editForm = $this->createEditForm($entity);
@@ -188,7 +198,8 @@ class ImageController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Image entity.');
+            $notFound = $this->translate('Unable to find Image entity');
+            throw $this->createNotFoundException($notFound);
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -197,7 +208,8 @@ class ImageController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Image Updated');
+            $updated = $this->translate('Image Updated');
+            $this->get('session')->getFlashBag()->add('success', $updated);
 
 
             return $this->redirect($this->generateUrl('media.image.edit', array('id' => $id)));
@@ -226,12 +238,14 @@ class ImageController extends Controller
             $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Image entity.');
+                $notFound = $this->translate('Unable to find Image entity');
+                throw $this->createNotFoundException($notFound);
             }
 
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Image Deleted');
+            $deleted = $this->translate('Image Deleted');
+            $this->get('session')->getFlashBag()->add('success', $deleted);
 
         }
 

@@ -17,10 +17,14 @@ Actions: Akcije
 Title: Naslov
 Name: Naziv
 Items: Stavke
+File: Datoteka
 
 show: prikazi
 edit: uredi
 Edit: Uredi
+Create: Stvori
+Update: Azuriraj
+Delete: Izbrisi
 
 Image Collection edit: Uredi kolekciju slika
 Image Collection creation: Nova kolekcija slika
@@ -42,3 +46,22 @@ Reset filters: Resetiraj filtere
 Position: Pozicija
 Body: Sadrzaj
 Link: Poveznica
+
+Image Collection Created: Stvorena je nova kolekcija slika
+Unable to find Image Collection entity.: Trazena kolekcija slika ne postoji
+Image Collection Updated: Kolekcija slika je azurirana
+Image Collection Deleted: Kolekcija slika je izbrisana
+
+Image Created: Slika je stvorena
+Unable to find Image entity: Trazena slika ne postoji
+Image Updated: Slika je azurirana
+Image Deleted: Slika je izbrisana
+
+Slider Created: Klizac je stvoren
+Slider Updated: Klizac je azuriran
+Slider Deleted: Klizac je izbrisan
+Unable to find Slider entity: Trazeni klizac ne postoji
+
+Slider Item Created: Stavka klizaca je stvorena
+Slider Item Updated: Stavka klizaca je azurirana
+Slider item Deleted: Stavka klizaca je izbrisana

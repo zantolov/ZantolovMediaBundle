@@ -18,6 +18,13 @@ use Zantolov\MediaBundle\Form\ImageCollectionType;
 class ImageCollectionController extends Controller
 {
     /**
+     * @param $string
+     * @return String
+     */
+    protected function translate($string){
+        return $this->get('translator')->trans($string);
+    }
+    /**
      * Lists all ImageCollection entities.
      *
      * @Route("/", name="media.image-collection")
@@ -52,7 +59,8 @@ class ImageCollectionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'ImageCollection Created');
+            $created = $this->translate('Image Collection Created');
+            $this->get('session')->getFlashBag()->add('success', $created);
 
 
             return $this->redirect($this->generateUrl('media.image-collection.show', array('id' => $entity->getId())));
@@ -115,7 +123,8 @@ class ImageCollectionController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:ImageCollection')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ImageCollection entity.');
+            $notFound = $this->translate('Unable to find Image Collection entity.');
+            throw $this->createNotFoundException($notFound);
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -140,7 +149,8 @@ class ImageCollectionController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:ImageCollection')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ImageCollection entity.');
+            $notFound = $this->translate('Unable to find Image Collection entity.');
+            throw $this->createNotFoundException($notFound);
         }
 
         $editForm = $this->createEditForm($entity);
@@ -186,7 +196,8 @@ class ImageCollectionController extends Controller
         $entity = $em->getRepository('ZantolovMediaBundle:ImageCollection')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ImageCollection entity.');
+            $notFound = $this->translate('Unable to find Image Collection entity.');
+            throw $this->createNotFoundException($notFound);
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -195,7 +206,8 @@ class ImageCollectionController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'ImageCollection Updated');
+            $updated = $this->translate('Image Collection Updated');
+            $this->get('session')->getFlashBag()->add('success', $updated);
 
 
             return $this->redirect($this->generateUrl('media.image-collection.edit', array('id' => $id)));
@@ -224,12 +236,14 @@ class ImageCollectionController extends Controller
             $entity = $em->getRepository('ZantolovMediaBundle:ImageCollection')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ImageCollection entity.');
+                $notFound = $this->translate('Unable to find Image Collection entity.');
+                throw $this->createNotFoundException($notFound);
             }
 
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'ImageCollection Deleted');
+            $deleted = $this->translate('Image Collection Deleted');
+            $this->get('session')->getFlashBag()->add('success', $deleted);
 
         }
 
