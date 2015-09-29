@@ -2,7 +2,6 @@
 
 namespace Zantolov\MediaBundle\Controller;
 
-use Doctrine\Common\Util\Debug;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
