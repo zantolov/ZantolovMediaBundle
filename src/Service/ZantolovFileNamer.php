@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Naming\NamerInterface;
 
 class ZantolovFileNamer implements NamerInterface
 {
+    use NamerTrait;
 
     /**
      * {@inheritDoc}
@@ -19,30 +20,14 @@ class ZantolovFileNamer implements NamerInterface
         /** @var UploadedFile $file */
         $file = $mapping->getFile($object);
 
-        $name = $file->getClientOriginalName();
-        $name = Urlizer::urlize($name);
-        $name .= '-' . time();
+        $oldName = $file->getClientOriginalName();
+        $name = $this->getFileName($oldName);
 
         if ($extension = $this->getExtension($file)) {
             $name = sprintf('%s.%s', $name, $extension);
         }
 
         return $name;
-    }
-
-    protected function getExtension(UploadedFile $file)
-    {
-        $originalName = $file->getClientOriginalName();
-
-        if ($extension = pathinfo($originalName, PATHINFO_EXTENSION)) {
-            return $extension;
-        }
-
-        if ($extension = $file->guessExtension()) {
-            return $extension;
-        }
-
-        return null;
     }
 
 }
