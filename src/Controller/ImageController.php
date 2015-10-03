@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Zantolov\AppBundle\Controller\EntityCrudController;
 use Zantolov\MediaBundle\Entity\Image;
 use Zantolov\MediaBundle\Form\ImageType;
 
@@ -16,15 +17,22 @@ use Zantolov\MediaBundle\Form\ImageType;
  *
  * @Route("/image")
  */
-class ImageController extends Controller
+class ImageController extends EntityCrudController
 {
+    protected function getEntityClass()
+    {
+        return 'ZantolovMediaBundle:Image';
+    }
+
     /**
      * @param $string
      * @return String
      */
-    protected function translate($string){
+    protected function translate($string)
+    {
         return $this->get('translator')->trans($string);
     }
+
     /**
      * Lists all Image entities.
      *
@@ -32,15 +40,9 @@ class ImageController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('ZantolovMediaBundle:Image')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+        return parent::baseIndexAction($request);
     }
 
     /**
@@ -52,25 +54,7 @@ class ImageController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Image();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            $created = $this->translate('Image Created');
-            $this->get('session')->getFlashBag()->add('success', $created);
-
-
-            return $this->redirect($this->generateUrl('media.image.show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return parent::baseCreateAction($request, new Image(), 'media.image.show');
     }
 
     /**
@@ -80,16 +64,9 @@ class ImageController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Image $entity)
+    protected function createCreateForm($entity)
     {
-        $form = $this->createForm(new ImageType(), $entity, array(
-            'action' => $this->generateUrl('media.image.create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create', 'attr' => array('class' => 'btn btn-success btn-lg')));
-
-        return $form;
+        return parent::createBaseCreateForm($entity, new ImageType(), $this->generateUrl('media.image.create'));
     }
 
     /**
@@ -101,13 +78,7 @@ class ImageController extends Controller
      */
     public function newAction()
     {
-        $entity = new Image();
-        $form = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return parent::baseNewAction(new Image());
     }
 
     /**
@@ -119,21 +90,7 @@ class ImageController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
-
-        if (!$entity) {
-            $notFound = $this->translate('Unable to find Image entity');
-            throw $this->createNotFoundException($notFound);
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+        return parent::baseShowAction($id);
     }
 
     /**
@@ -145,23 +102,7 @@ class ImageController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
-
-        if (!$entity) {
-            $notFound = $this->translate('Unable to find Image entity');
-            throw $this->createNotFoundException($notFound);
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return parent::baseEditAction($id);
     }
 
     /**
@@ -171,16 +112,9 @@ class ImageController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Image $entity)
+    protected function createEditForm($entity)
     {
-        $form = $this->createForm(new ImageType(), $entity, array(
-            'action' => $this->generateUrl('media.image.update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-success')));
-
-        return $form;
+        return parent::createBaseCreateForm($entity, new ImageType(), $this->generateUrl('media.image.update', array('id' => $entity->getId())));
     }
 
     /**
@@ -192,33 +126,7 @@ class ImageController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
-
-        if (!$entity) {
-            $notFound = $this->translate('Unable to find Image entity');
-            throw $this->createNotFoundException($notFound);
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-            $updated = $this->translate('Image Updated');
-            $this->get('session')->getFlashBag()->add('success', $updated);
-
-
-            return $this->redirect($this->generateUrl('media.image.edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return parent::baseUpdateAction($request, $id, $this->generateUrl('media.image.edit', array('id' => $id)));
     }
 
     /**
@@ -229,26 +137,7 @@ class ImageController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ZantolovMediaBundle:Image')->find($id);
-
-            if (!$entity) {
-                $notFound = $this->translate('Unable to find Image entity');
-                throw $this->createNotFoundException($notFound);
-            }
-
-            $em->remove($entity);
-            $em->flush();
-            $deleted = $this->translate('Image Deleted');
-            $this->get('session')->getFlashBag()->add('success', $deleted);
-
-        }
-
-        return $this->redirect($this->generateUrl('media.image'));
+        return parent::baseDeleteAction($request, $id, $this->generateUrl('media.image'));
     }
 
     /**
@@ -258,13 +147,9 @@ class ImageController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    protected function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('media.image.delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
-            ->getForm();
+        return parent::baseCreateDeleteForm($this->generateUrl('media.image.delete', array('id' => $id)));
     }
 
 

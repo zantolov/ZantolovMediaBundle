@@ -44,19 +44,17 @@
                  class="Zantolov\MediaBundle\Service\ZantolovFileNamer">
         </service>
 
-        <service id="zantolov.media.oneup.namer"
-                 class="Zantolov\MediaBundle\Service\ZantolovOneupFileNamer">
-        </service>
-
         <service id="zantolov.media.menu_builder" class="Zantolov\MediaBundle\Menu\MenuBuilder">
             <argument type="service" id="knp_menu.factory"/>
             <tag name="zantolov.app.menu"/>
         </service>
 
-        <service id="zantolov.media.upload_listener" class="Zantolov\MediaBundle\EventListener\UploadListener">
-            <argument type="service" id="doctrine"/>
-            <tag name="kernel.event_listener" event="oneup_uploader.post_persist" method="onUpload"/>
-        </service>
+        <!--<service id="zantolov.media.upload_listener" class="Zantolov\MediaBundle\EventListener\UploadListener">-->
+            <!--<argument type="service" id="doctrine"/>-->
+            <!--<tag name="kernel.event_listener" event="oneup_uploader.post_persist" method="onUpload"/>-->
+        <!--</service>-->
+
+        <!--<service id="zantolov.media.upload_error_handler" class="Zantolov\MediaBundle\Service\UploadErrorHandler"/>-->
 
     </services>
 

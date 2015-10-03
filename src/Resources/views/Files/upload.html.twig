@@ -7,10 +7,24 @@
 
 {% block customJsPlugins -%}
     {{ parent() }}
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script src="{{ asset('bundles/zantolovmedia/js/dropzone.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-    <form action="{{ oneup_uploader_endpoint('files') }}" class="dropzone">
-    </form>
+    <form action="{{ url('media.files.upload.process') }}"
+          method="POST"
+          class="dropzone"
+          id="dropzoneForm"></form>
+
+    <script>
+        var functions = window.functions || [];
+        functions.push(function () {
+            Dropzone.options.dropzoneForm = {
+                init: function() {
+                    this.on("error", function(file, error) { alert(error.message); });
+                }
+            };
+        });
+    </script>
+
 {% endblock %}

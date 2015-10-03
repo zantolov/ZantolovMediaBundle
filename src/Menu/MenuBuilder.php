@@ -24,10 +24,11 @@ class MenuBuilder implements MenuBuilderInterface
     {
         $menuItems = array();
 
-        $menuItems['multimedia'] = $this->factory->createItem('Multimedia', array('label' => 'Multimedia'))
+        $menuItems['multimedia'] = $this->factory->createItem('Multimedia', array('label' => 'Files & Multimedia'))
             ->setAttribute('dropdown', true)
             ->setAttribute('icon', 'fa fa-image');
 
+        $menuItems['multimedia']->addChild('Documents', array('route' => 'zantolov.media.document.index'))->setAttribute('icon', 'fa fa-file');
         $menuItems['multimedia']->addChild('Images', array('route' => 'media.image'))->setAttribute('icon', 'fa fa-image');
         $menuItems['multimedia']->addChild('Sliders', array('route' => 'zantolov.media.slider.index'))->setAttribute('icon', 'fa fa-folder');
         $menuItems['multimedia']->addChild('Slider items', array('route' => 'zantolov.media.slider-item.index'))->setAttribute('icon', 'fa fa-list');
