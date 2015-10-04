@@ -8,6 +8,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Zantolov\AppBundle\Entity\Traits\ActivableTrait;
 use Zantolov\MediaBundle\Entity\Interfaces\LiipCacheableInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -33,6 +34,10 @@ class Image implements LiipCacheableInterface, \JsonSerializable
      * @Vich\UploadableField(mapping="default_image", fileNameProperty="imageName")
      *
      * @var File
+     *
+     * @Assert\Image(
+     * )
+     *
      */
     private $imageFile;
 

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Zantolov\AppBundle\Controller\DefaultEntityCrudController;
 use Zantolov\MediaBundle\Entity\Document;
 use Zantolov\MediaBundle\Form\DocumentType;
@@ -120,6 +121,14 @@ class DocumentController extends DefaultEntityCrudController
 
 
     /**
+     * @return string
+     */
+    private function getTargetDirectory()
+    {
+        return $this->getParameter('kernel.root_dir') . '/../web/' . $this->getParameter('uploads_dir') . '/files/';
+    }
+
+    /**
      * Lists all Image entities.
      *
      * @Route("/upload", name="zantolov.media.document.upload")
@@ -134,13 +143,13 @@ class DocumentController extends DefaultEntityCrudController
             isset($_SERVER['REQUEST_METHOD']) &&
             strtolower($_SERVER['REQUEST_METHOD']) == 'post'
         ) {
-            //catch file overload error...
+            // catch file overload error...
             $postMax = ini_get('post_max_size'); //grab the size limits...
             return new Response("Files larger than {$postMax} are not allowed!", 413);
         }
 
-        $uploadsDir = $this->getParameter('kernel.root_dir') . '/../web/' . $this->getParameter('uploads_dir') . '/files/';
         $files = $request->files->all();
+        $uploadsDir = $this->getTargetDirectory();
 
         /** @var UploadedFile $file */
         foreach ($files as $file) {
@@ -153,6 +162,7 @@ class DocumentController extends DefaultEntityCrudController
             $file = $file->move($uploadsDir, $name);
 
             $entity = $this->getNewEntity();
+            $entity->setActive(true);
             $entity->setFile($file);
             $entity->setFilename($name);
             $this->getManager()->persist($entity);
@@ -163,4 +173,58 @@ class DocumentController extends DefaultEntityCrudController
 
         return new Response('OK');
     }
+
+
+    /**
+     * Lists all Image entities.
+     *
+     * @Route("/browse/ckeditor", name="zantolov.media.document.popup.browse.ckeditor")
+     * @Method("GET")
+     * @Template()
+     */
+    public function ckeditorBrowseAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('ZantolovMediaBundle:Document')->findBy(array('active' => 1));
+
+        $callback = $request->get('CKEditorFuncNum');
+
+        $paginator = $this->get('knp_paginator');
+        $files = $paginator->paginate(
+            $entities,
+            $request->query->getInt('page', 1), // page number,
+            50 // limit per page
+        );
+
+        $disableNavigation = true;
+        return compact('files', 'callback', 'disableNavigation');
+    }
+
+
+    /**
+     * Routing defined in routing.yml
+     * @param $filename
+     */
+    public function downloadAction($filename)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $file = $em->getRepository('ZantolovMediaBundle:Document')->findOneBy(array('active' => 1, 'filename' => $filename));
+
+        if (empty($file)) {
+            throw $this->createNotFoundException();
+        }
+
+        $path = $this->getTargetDirectory() . $filename;
+
+        if (file_exists($path)) {
+            $response = new Response(file_get_contents($path));
+            $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename));
+            return $response;
+        } else {
+            throw $this->createNotFoundException();
+
+        }
+
+    }
+
 }

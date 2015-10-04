@@ -1,15 +1,25 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>{% trans %}Image creation{% endtrans %}</h1>
+        {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
+            {% block entityTitle %}New Image{% endblock %}
+            {% block actionPanel %}
+                <ul class="list-inline">
+                    <li>
+                        <a onclick="$('#zantolov_mediabundle_image_submit').click();" href="javascript:void(0)"
+                           class="btn btn-success btn-sm">
+                            <i class="fa fa-check"></i> Create
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-sm" href="{{ path('zantolov.media.image.index') }}">
+                            <i class="fa fa-arrow-left"></i> Back to the list
+                        </a>
+                    </li>
+                </ul>
+            {% endblock %}
+        {% endembed %}
 
         {{ form(form) }}
 
-        <ul class="list-inline">
-            <li>
-                <a class="btn btn-primary" href="{{ path('media.image') }}">
-                    <i class="fa fa-arrow-left"></i> {% trans %}Back to the list{% endtrans %}
-                </a>
-            </li>
-        </ul>
     {% endblock %}

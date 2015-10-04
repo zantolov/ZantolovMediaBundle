@@ -1,16 +1,35 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>{% trans %}Document edit{% endtrans %}</h1>
+
+        {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
+            {% block entityTitle %}
+                Document Edit
+            {% endblock %}
+            {% block actionPanel %}
+                <ul class="list-inline">
+                    <li>
+                        <a onclick="$('#zantolov_mediabundle_document_submit').click();" href="javascript:void(0)"
+                           class="btn btn-success btn-sm">
+                            <i class="fa fa-check"></i> Update
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-sm" href="{{ path('zantolov.media.document.index') }}">
+                            <i class="fa fa-arrow-left"></i> Back to the list
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-sm"
+                           href="{{ path('zantolov.media.document.show', {id:entity.id}) }}">
+                            <i class="fa fa-arrow-left"></i> Back to the document
+                        </a>
+                    </li>
+                    <li>{{ form(delete_form) }}</li>
+                </ul>
+            {% endblock %}
+        {% endembed %}
 
         {{ form(edit_form) }}
 
-        <ul class="list-inline">
-            <li>
-                <a class="btn btn-primary" href="{{ path('zantolov.media.document.index') }}">
-                    <i class="fa fa-arrow-left"></i> {% trans %}Back to the list{% endtrans %}
-                </a>
-            </li>
-            <li>{{ form(delete_form) }}</li>
-        </ul>
     {% endblock %}

@@ -8,6 +8,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Zantolov\AppBundle\Entity\Traits\ActivableTrait;
 use Zantolov\AppBundle\Entity\Traits\BasicEntityTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -27,6 +28,10 @@ class Document implements \JsonSerializable
      * @Vich\UploadableField(mapping="default_file", fileNameProperty="filename")
      *
      * @var File
+     *
+     * @Assert\File(
+     *     maxSize = "8M",
+     * )
      */
     private $file;
 

@@ -17,9 +17,10 @@ class ImageType extends AbstractType
         $builder
             ->add('active', null, array('required' => false))
             ->add('imageFile', 'vich_image', array(
+                'label'         => false,
                 'required'      => false,
                 'allow_delete'  => true, // not mandatory, default is true
-                'download_link' => true, // not mandatory, default is true
+                'download_link' => false, // not mandatory, default is true
             ));
     }
 

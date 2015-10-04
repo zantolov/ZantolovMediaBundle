@@ -20,7 +20,7 @@ class ImageChooserType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['image_browse_route_name'] = 'media.image.popup.browse';
+        $view->vars['image_browse_route_name'] = 'zantolov.media.image.popup.browse';
         $view->vars['propertyPath'] = $this->path;
     }
 

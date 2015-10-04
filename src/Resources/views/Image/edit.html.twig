@@ -1,21 +1,41 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
     {% block body -%}
-        <h1>{% trans %}Image edit{% endtrans %}</h1>
+        {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
+            {% block entityTitle %}Image Edit{% endblock %}
+            {% block actionPanel %}
+                <ul class="list-inline">
+                    <li>
+                        <a onclick="$('#zantolov_mediabundle_image_submit').click();" href="javascript:void(0)"
+                           class="btn btn-success btn-sm">
+                            <i class="fa fa-check"></i> Update
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-sm" href="{{ path('zantolov.media.image.index') }}">
+                            <i class="fa fa-arrow-left"></i> Back to the list
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn btn-primary btn-sm"
+                           href="{{ path('zantolov.media.image.show', {id:entity.id}) }}">
+                            <i class="fa fa-arrow-left"></i> Back to the image
+                        </a>
+                    </li>
+                    <li>{{ form(delete_form) }}</li>
+                </ul>
+            {% endblock %}
+        {% endembed %}
 
-        {% if entity.imageFile is defined %}
-            <img src="{{ zantolov_uploader_asset(entity, 'imageFile', null, false) | imagine_filter('500x330') }}"
-                 alt=""/>
-        {% endif %}
+        <div class="col-md-5 text-center">
+            {% if entity.imageFile is defined %}
+                <img class="img-thumbnail"
+                     src="{{ zantolov_uploader_asset(entity, 'imageFile', null, false) | imagine_filter('500x330') }}"
+                     alt=""/>
+            {% endif %}
+        </div>
+        <div class="col-md-7">
+            {{ form(edit_form) }}
+        </div>
 
-        {{ form(edit_form) }}
-
-        <ul class="list-inline">
-            <li>
-                <a class="btn btn-primary" href="{{ path('media.image') }}">
-                    <i class="fa fa-arrow-left"></i> {% trans %}Back to the list{% endtrans %}
-                </a>
-            </li>
-            <li>{{ form(delete_form) }}</li>
-        </ul>
     {% endblock %}
