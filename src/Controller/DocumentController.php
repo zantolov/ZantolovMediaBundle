@@ -2,6 +2,7 @@
 
 namespace Zantolov\MediaBundle\Controller;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Validator\Validator;
 use Zantolov\AppBundle\Controller\DefaultEntityCrudController;
 use Zantolov\MediaBundle\Entity\Document;
 use Zantolov\MediaBundle\Form\DocumentType;
@@ -145,7 +147,9 @@ class DocumentController extends DefaultEntityCrudController
         ) {
             // catch file overload error...
             $postMax = ini_get('post_max_size'); //grab the size limits...
-            return new Response("Files larger than {$postMax} are not allowed!", 413);
+            $uploadMax = ini_get('upload_max_filesize');
+            $min = min($postMax, $uploadMax);
+            return new Response("Files larger than {$min} are not allowed!", 413);
         }
 
         $files = $request->files->all();
@@ -153,19 +157,33 @@ class DocumentController extends DefaultEntityCrudController
 
         /** @var UploadedFile $file */
         foreach ($files as $file) {
+            try {
 
-            $name = $this->getFileName($file->getClientOriginalName());
-            if ($extension = $this->getExtension($file)) {
-                $name = sprintf('%s.%s', $name, $extension);
+                $name = $this->getFileName($file->getClientOriginalName());
+                if ($extension = $this->getExtension($file)) {
+                    $name = sprintf('%s.%s', $name, $extension);
+                }
+
+                $file = $file->move($uploadsDir, $name);
+                $entity = $this->getNewEntity();
+                $entity->setActive(true);
+                $entity->setFile($file);
+                $entity->setFilename($name);
+
+                /** @var Validator $validator */
+                $validator = $this->get('validator');
+                $errors = $validator->validate($entity);
+
+                if ($errors->count() > 0) {
+                    return new Response($errors->get(0)->getMessage(), 400);
+                }
+
+                $this->getManager()->persist($entity);
+
+            } catch (FileException $e) {
+                return new Response($e->getMessage(), 400);
             }
 
-            $file = $file->move($uploadsDir, $name);
-
-            $entity = $this->getNewEntity();
-            $entity->setActive(true);
-            $entity->setFile($file);
-            $entity->setFilename($name);
-            $this->getManager()->persist($entity);
         }
 
         $this->getManager()->flush();
