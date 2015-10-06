@@ -1,10 +1,3 @@
-{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.carousel.css')) }}
-{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.transitions.css')) }}
-{{ assetsService.addCss(asset('bundles/zantolovmedia/owlCarousel/owl.theme.css')) }}
-
-{{ assetsService.addJs(asset('bundles/zantolovmedia/owlCarousel/owl.carousel.min.js')) }}
-{{ assetsService.addJs(asset('bundles/zantolovmedia/js/mediaSlider.js')) }}
-
 <div id="slider-{{ slider.id }}" class="mediaSlider owl-carousel">
     {% for sliderItem in slider.getItems() %}
         {% if sliderItem.active == true %}

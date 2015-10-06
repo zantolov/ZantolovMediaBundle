@@ -1,0 +1,16 @@
+<script>
+    var functions = window.functions || [];
+    functions.push(function () {
+        $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', "{{ asset('bundles/zantolovmedia/owlCarousel/owl.all.css') }}"));
+        $.getScript("{{ asset('bundles/zantolovmedia/owlCarousel/owl.carousel.min.js') }}", function () {
+            $(".mediaSlider").owlCarousel({
+                //navigation: true,
+                singleItem: true,
+                autoplay: 5000
+            });
+        });
+    });
+</script>
+
+{% block html %}
+{% endblock %}
