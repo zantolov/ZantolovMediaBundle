@@ -1,22 +1,17 @@
 {% extends 'ZantolovMediaBundle::baseAdmin.html.twig' %}
 
 {% block body %}
-    <ul id="imageBrowseList" class="list-inline equalRow">
-        {% for file in files %}
-            <li class="equal equalItem">
-                <a href="javascript:void(0)"
-                   onClick='window.opener.CKEDITOR.tools.callFunction("{{ callback }}", "{{ url('zantolov.media.document.download', {filename: file.filename }) }}");window.close();'>
+    {% for file in files %}
+        <div class="documentItem equalItem">
+            <a href="javascript:void(0)"
+               onClick='window.opener.CKEDITOR.tools.callFunction("{{ callback }}", "{{ url('zantolov.media.document.download', {filename: file.filename }) }}");window.close();'>
 
-                    <i class="fa fa-3x fa-file"></i>
+                <i class="fa fa-3x fa-file"></i>
 
-                    <div class="name">
-                        {{ file.filename }}
-                    </div>
-                </a>
-            </li>
-        {% endfor %}
-
-    </ul>
+                <span class="name">{{ file.filename }}</span>
+            </a>
+        </div>
+    {% endfor %}
 
     <div class="navigation text-center">
         {{ knp_pagination_render(files) }}
@@ -30,9 +25,9 @@
     <script src="{{ asset('bundles/zantolovapp/js/matchHeight.min.js') }}"></script>
 
     <script>
-        var functions = window.functions || []
+        var functions = window.functions || [];
         functions.push(function () {
-            $('.equalRow .equalItem').matchHeight();
+            $('.equalItem').matchHeight();
         });
     </script>
 
