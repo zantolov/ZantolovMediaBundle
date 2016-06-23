@@ -12,22 +12,30 @@
 
     {% block body -%}
         {% embed 'ZantolovAppBundle:Admin/partials:crudHeader.html.twig'  with { ignoreTabs: ["filters"]} %}
+
             {% block entityTitle %}
                 {% trans %}Document list{% endtrans %}
             {% endblock %}
+
             {% block actionPanel %}
                 {% include 'ZantolovAppBundle:SensioGeneratorBundle:partials/CRUD/indexLinks.html.twig' with {entityPrefix: "zantolov.media.document."} %}
             {% endblock %}
+
             {% block additionalTabLinks %}
-                <li class="dragActiveable"><a href="#uploadTab" data-toggle="tab">{% trans %}
-                        Upload{% endtrans %}</a></li>
+                <li class="dragActiveable">
+                    <a href="#uploadTab" data-toggle="tab">
+                        {% trans %}Upload{% endtrans %}
+                    </a>
+                </li>
             {% endblock %}
+
             {% block additionalTabs %}
                 <div role="tabpanel" class="tab-pane text-left" id="uploadTab">
                     <form action="{{ url('zantolov.media.document.upload') }}"
                           method="POST"
                           class="dropzone"
-                          id="dropzoneForm"></form>
+                          id="dropzoneForm">
+                    </form>
 
                     <script>
                         var functions = window.functions || [];
@@ -44,42 +52,44 @@
 
         {% endembed %}
 
-        <table class="table dataTable">
-            <thead>
-            <tr>
-                <th class="col-sm-1">#</th>
-                <th>{% trans %}Name{% endtrans %}</th>
-                <th>{% trans %}Created at{% endtrans %}</th>
-                <th>{% trans %}Updated at{% endtrans %}</th>
-                <th>{% trans %}Active{% endtrans %}</th>
-                <th class="col-sm-1">{% trans %}Actions{% endtrans %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entity in entities %}
+        <div class="col-md-12">
+            <table class="table dataTable">
+                <thead>
                 <tr>
-                    <td>
-                        <a href="{{ path('zantolov.media.document.show', { 'id': entity.id }) }}">{{ entity.id }}</a>
-                    </td>
-                    <td>{{ entity.filename }}</td>
-                    <td>{% if entity.createdAt %}{{ entity.createdAt|date(defaultDateTimeFormat) }}{% endif %}</td>
-                    <td>{% if entity.updatedAt %}{{ entity.updatedAt|date(defaultDateTimeFormat) }}{% endif %}</td>
-                    <td>{{ entity.active|fontAwesome() }}</td>
-                    <td>
-                        <a class="btn btn-primary btn-sm"
-                           title="Show"
-                           href="{{ path('zantolov.media.document.show', { 'id': entity.id }) }}">
-                            <i class="fa fa-search"></i>
-                        </a>
-                        <a class="btn btn-primary btn-sm"
-                           title="Edit"
-                           href="{{ path('zantolov.media.document.edit', { 'id': entity.id }) }}">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                    </td>
+                    <th class="col-sm-1">#</th>
+                    <th>{% trans %}Name{% endtrans %}</th>
+                    <th>{% trans %}Created at{% endtrans %}</th>
+                    <th>{% trans %}Updated at{% endtrans %}</th>
+                    <th>{% trans %}Active{% endtrans %}</th>
+                    <th class="col-sm-1">{% trans %}Actions{% endtrans %}</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for entity in entities %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('zantolov.media.document.show', { 'id': entity.id }) }}">{{ entity.id }}</a>
+                        </td>
+                        <td>{{ entity.filename }}</td>
+                        <td>{% if entity.createdAt %}{{ entity.createdAt|date(defaultDateTimeFormat) }}{% endif %}</td>
+                        <td>{% if entity.updatedAt %}{{ entity.updatedAt|date(defaultDateTimeFormat) }}{% endif %}</td>
+                        <td>{{ entity.active|fontAwesome() }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm"
+                               title="Show"
+                               href="{{ path('zantolov.media.document.show', { 'id': entity.id }) }}">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <a class="btn btn-primary btn-sm"
+                               title="Edit"
+                               href="{{ path('zantolov.media.document.edit', { 'id': entity.id }) }}">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
     {% endblock %}

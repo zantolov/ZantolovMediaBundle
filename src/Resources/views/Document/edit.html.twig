@@ -6,6 +6,7 @@
             {% block entityTitle %}
                 Document Edit
             {% endblock %}
+
             {% block actionPanel %}
                 <ul class="list-inline">
                     <li>
@@ -30,6 +31,7 @@
             {% endblock %}
         {% endembed %}
 
-        {{ form(edit_form) }}
-
+        <div class="col-md-12">
+            {{ form(edit_form) }}
+        </div>
     {% endblock %}
