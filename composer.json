@@ -7,6 +7,7 @@
     }
   ],
   "require": {
+    "zantolov/appbundle": "~1.6",
     "vich/uploader-bundle": "^0.14.0"
   },
   "autoload": {
